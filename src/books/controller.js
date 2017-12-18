@@ -16,6 +16,11 @@ const getAll = (genre, author) => {
     books
 }
 
+const getById = (id) => {
+  console.log('ID', id)
+  return booksData.find(book => book.id.toString() === id)
+}
 
 
-module.exports = { getAll }
+
+module.exports = { getAll, getById }
