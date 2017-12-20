@@ -1,26 +1,26 @@
 const booksData = require('./data')
 
-const getByGenre = (books, genre) =>
-  books.filter(book => book.genre === genre)
-
-const getByAuthor = (books, author) =>
-  books.filter(book => book.author === author)
-
-const getAll = (genre, author) => {
-  const books =  genre ?
-    getByGenre(booksData, genre) :
-    booksData
-
-  return author ?
-    getByAuthor(books, author) :
+const getByFilter = (books, field, value) =>
+  books[0][field] ?
+    books.filter(book => book[field] === value) :
     books
+
+const getAll = (queries) =>
+  Object.keys(queries).reduce((books, key) =>
+    getByFilter(books, key, queries[key]),
+    booksData
+  )
+
+const getById = (id) =>
+  booksData.find(book => book.id.toString() === id)
+
+const create = (book) => {
+  book.id = booksData.length
+  book.read = false
+
+  booksData.push(book)
+
+  return book
 }
 
-const getById = (id) => {
-  console.log('ID', id)
-  return booksData.find(book => book.id.toString() === id)
-}
-
-
-
-module.exports = { getAll, getById }
+module.exports = { getAll, getById, create }
